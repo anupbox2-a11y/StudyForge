@@ -1,9 +1,14 @@
 import "dotenv/config";
 import express from "express";
 import { GoogleGenAI } from "@google/genai";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 const PORT = 3000;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY
@@ -11,7 +16,9 @@ const ai = new GoogleGenAI({
 
 app.use(express.json());
 
-app.use(express.static("."));
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
 
 app.post("/api/ask", async (req, res) => {
     try {
