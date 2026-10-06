@@ -31,8 +31,7 @@ app.post("/api/ask", async (req, res) => {
         res.json({
             answer: interaction.output_text
         });
-    }
-    catch (error) {
+    } catch (error) {
         console.error("Gemini error:", error);
 
         res.status(500).json({
@@ -41,8 +40,12 @@ app.post("/api/ask", async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(
-        `🚀 StudyForge is running at http://localhost:${PORT}`
-    );
-});
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(
+            `🚀 StudyForge is running at http://localhost:${PORT}`
+        );
+    });
+}
+
+export default app;
