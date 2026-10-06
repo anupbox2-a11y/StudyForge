@@ -30,14 +30,15 @@ app.post("/api/ask", async (req, res) => {
             });
         }
 
-        const interaction = await ai.interactions.create({
-            model: "gemini-3.5-flash-lite",
-            input: question
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: question
         });
 
         res.json({
-            answer: interaction.output_text
+            answer: response.text
         });
+
     } catch (error) {
         console.error("Gemini error:", error);
 
